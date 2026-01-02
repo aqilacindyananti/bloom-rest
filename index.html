@@ -182,7 +182,7 @@
         .pat-animation { animation: patpat 1s ease-in-out infinite; }
 
         /* Task & Reveal Items */
-        .task-item { display: flex; align-items: center; background: rgba(255,255,255,0.6); padding: 10px; border-radius: 12px; margin-bottom: 8px; color: var(--text-main); }
+        .task-item { display: flex; align-items: center; background: rgba(255,255,255,0.6); padding: 12px; border-radius: 12px; margin-bottom: 8px; color: var(--text-main); }
         .task-check { min-width: 22px; height: 22px; border: 2px solid var(--primary-dark); border-radius: 6px; margin-right: 12px; display: grid; place-items: center; }
         .task-check.checked { background: var(--primary-dark); }
         .task-check.checked::after { content: '✔'; color: white; font-size: 12px; }
@@ -201,6 +201,35 @@
 
         /* Dark Mode Text Fix */
         body.dark-theme h1, body.dark-theme h2, body.dark-theme .btn-icon { color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+
+        /* Planner Specifics (New) */
+        .category-group {
+            background: rgba(255,255,255,0.4);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .add-task-wrapper {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .add-task-wrapper input {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            padding: 10px;
+            flex: 1;
+        }
+        .add-task-wrapper button {
+            flex-shrink: 0;
+        }
 
     </style>
 </head>
@@ -550,7 +579,7 @@
         planner: {
             data: [],
             load() { this.data = Storage.getPlanner(); },
-            render() { this.load(); const c = document.getElementById('planner-container'); c.innerHTML=''; if(this.data.length===0) c.innerHTML='<p class="text-light text-center">Kosong.</p>'; this.data.forEach((cat,i) => { let h = `<div class="category-group"><div class="category-header"><span class="category-title">${cat.title}</span><i class="ph ph-trash" style="color:#ff7675" onclick="app.planner.delCat(${i})"></i></div>`; cat.tasks.forEach((t,j) => h+=`<div class="task-item"><div class="task-check ${t.done?'checked':''}" onclick="app.planner.tog(${i},${j})"></div><span class="task-text ${t.done?'done':''}">${t.text}</span><i class="ph ph-trash delete-task" onclick="app.planner.delTask(${i},${j})"></i></div>`); h+=`<div style="display:flex;gap:5px;margin-top:5px"><input id="nt-${i}" placeholder="+ Tugas" style="margin:0;padding:8px"><button class="btn-primary btn-icon" style="width:30px;height:30px" onclick="app.planner.add(${i})">+</button></div></div>`; c.innerHTML += h; }); },
+            render() { this.load(); const c = document.getElementById('planner-container'); c.innerHTML=''; if(this.data.length===0) c.innerHTML='<p class="text-light text-center">Kosong.</p>'; this.data.forEach((cat,i) => { let h = `<div class="category-group"><div class="category-header"><span class="category-title">${cat.title}</span><i class="ph ph-trash" style="color:#ff7675" onclick="app.planner.delCat(${i})"></i></div>`; cat.tasks.forEach((t,j) => h+=`<div class="task-item"><div class="task-check ${t.done?'checked':''}" onclick="app.planner.tog(${i},${j})"></div><span class="task-text ${t.done?'done':''}">${t.text}</span><i class="ph ph-trash delete-task" onclick="app.planner.delTask(${i},${j})"></i></div>`); h+=`<div class="add-task-wrapper"><input id="nt-${i}" placeholder="+ Tugas" style="margin:0;"><button class="btn-primary btn-icon" style="width:36px;height:36px" onclick="app.planner.add(${i})">+</button></div></div>`; c.innerHTML += h; }); },
             renderPreview() { this.load(); const p = document.getElementById('home-tasks-preview'); let all=[]; this.data.forEach(c=>c.tasks.forEach(t=>{if(!t.done)all.push(t.text)})); p.innerHTML = all.length ? all.slice(0,3).map(t=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:4px"><div style="width:6px;height:6px;background:var(--primary-dark);border-radius:50%"></div><span class="text-xs">${t}</span></div>`).join('') : '<p class="text-light text-xs">Semua selesai!</p>'; },
             addCategoryPrompt() { const t=prompt("Nama Kategori:"); if(t){ this.data.push({id:Date.now(),title:t,tasks:[]}); Storage.savePlanner(this.data); this.render(); } },
             delCat(i) { if(confirm("Hapus?")){ this.data.splice(i,1); Storage.savePlanner(this.data); this.render(); } },
@@ -624,7 +653,14 @@
                 
                 const bg = document.getElementById('global-bg'); document.querySelectorAll('.decoration-layer').forEach(d=>d.classList.remove('active'));
                 bg.className = ''; 
-                if(id==='home') { bg.classList.add('bg-home'); document.getElementById('deco-home').classList.add('active'); document.body.classList.remove('dark-theme'); app.renderHomeMorningSummary(); }
+                
+                // Group Home, Planner, Settings to use Home Background
+                if(['home', 'planner', 'settings'].includes(id)) {
+                    bg.classList.add('bg-home');
+                    document.getElementById('deco-home').classList.add('active');
+                    document.body.classList.remove('dark-theme');
+                    if(id === 'home') app.renderHomeMorningSummary();
+                }
                 else if(id==='bloom') { bg.classList.add('bg-bloom'); document.getElementById('deco-bloom').classList.add('active'); document.body.classList.remove('dark-theme'); }
                 else if(id==='rest') { 
                     bg.classList.add('bg-rest'); document.getElementById('deco-rest').classList.add('active'); document.body.classList.add('dark-theme'); 
@@ -637,7 +673,7 @@
                     } else { reviewSec.style.display = 'none'; }
                 }
                 else if(id==='calendar') { bg.classList.add('bg-journal'); document.body.classList.remove('dark-theme'); app.calendar.render(); }
-                else { bg.classList.add('bg-home'); document.body.classList.remove('dark-theme'); }
+                
                 if(id==='planner') app.planner.render(); window.scrollTo(0,0);
             }
         }
