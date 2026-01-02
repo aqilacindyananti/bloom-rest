@@ -42,6 +42,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #FDFBF7;
             color: var(--text-main);
+            /* FIX MOBILE: Kunci background biar ga gerak pas scroll */
             background-attachment: fixed;
             background-size: cover;
             background-repeat: no-repeat;
@@ -57,26 +58,119 @@
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: -5;
             background: #FDFBF7;
-            transition: background 0.6s ease;
+            transition: background 0.8s ease;
         }
-        #global-bg.bg-home { background: #FDFBF7; }
+        /* MODE: HOME (Lover Theme - Pink/Purple Pastel) */
+        #global-bg.bg-home { 
+            background: linear-gradient(180deg, #E0C3FC 0%, #FFC3A0 100%);
+        }
+        /* MODE: MORNING (Bloom) */
         #global-bg.bg-bloom { background: linear-gradient(180deg, #89f7fe 0%, #66a6ff 100%); }
+        /* MODE: NIGHT (Rest) */
         #global-bg.bg-rest { background: linear-gradient(180deg, #0f2027 0%, #203a43 50%, #2c5364 100%); }
-        #global-bg.bg-journal { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); }
+        /* MODE: JOURNAL (Green Hills) */
+        #global-bg.bg-journal { background: linear-gradient(180deg, #E0F7FA 0%, #B2EBF2 50%, #80DEEA 100%); }
+        /* MODE: PLANNER (Elegant Sunset) */
+        #global-bg.bg-planner {
+            background: linear-gradient(180deg, #6C5B7B 0%, #C06C84 50%, #F8B195 100%);
+        }
+        /* MODE: SETTINGS (Morning Wind) - NEW! */
+        #global-bg.bg-settings {
+            background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+        }
 
         /* --- DECORATIONS --- */
         .decoration-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -4; pointer-events: none; opacity: 0; transition: opacity 0.6s; }
         .decoration-layer.active { opacity: 1; }
-        .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; animation: float 10s infinite alternate; }
-        .blob-1 { top: -10%; left: -10%; width: 300px; height: 300px; background: #E8DFF5; }
-        .blob-2 { bottom: 10%; right: -5%; width: 250px; height: 250px; background: #FFC3A0; animation-delay: 2s; }
-        .cloud { position: absolute; background: rgba(255,255,255,0.8); border-radius: 50px; animation: moveCloud linear infinite; }
+        
+        /* DECO: HOME (Maple Leaves & Hearts) */
+        .maple {
+            position: absolute; font-size: 1.5rem; opacity: 0;
+            animation: fallRotate 8s linear infinite;
+            color: #D84315; /* Maple color */
+        }
+        .maple:nth-child(1) { left: 10%; animation-delay: 0s; font-size: 1.2rem; }
+        .maple:nth-child(2) { left: 30%; animation-delay: 2s; font-size: 1.8rem; color: #FF7043; }
+        .maple:nth-child(3) { left: 70%; animation-delay: 4s; font-size: 1.4rem; }
+        .maple:nth-child(4) { left: 50%; animation-delay: 1s; font-size: 1.6rem; color: #FF8A65; }
+        .maple:nth-child(5) { left: 90%; animation-delay: 3s; font-size: 1.3rem; }
+
+        .float-heart {
+            position: absolute; color: rgba(255, 255, 255, 0.4); font-size: 2rem;
+            animation: floatUp 15s linear infinite;
+        }
+        .float-heart:nth-child(6) { left: 20%; bottom: -50px; animation-delay: 0s; }
+        .float-heart:nth-child(7) { left: 80%; bottom: -50px; animation-delay: 5s; font-size: 1.5rem; }
+
+        @keyframes fallRotate {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        /* DECO: BLOOM/PLANNER (Clouds) */
+        .cloud { position: absolute; background: rgba(255,255,255,0.7); border-radius: 50px; animation: moveCloud linear infinite; }
         .cloud::after, .cloud::before { content:''; position: absolute; background: inherit; border-radius: 50%; }
         .cloud::after { width: 50%; height: 150%; top: -60%; left: 15%; }
         .cloud::before { width: 40%; height: 120%; top: -45%; right: 15%; }
         @keyframes moveCloud { from { transform: translateX(-100%); } to { transform: translateX(100vw); } }
+
+        /* DECO: SETTINGS (Wind Lines) - NEW! */
+        .wind {
+            position: absolute;
+            height: 2px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 4px;
+            animation: windBlow 4s linear infinite;
+            opacity: 0;
+        }
+        .wind:nth-child(1) { top: 20%; left: -20%; width: 100px; animation-duration: 5s; }
+        .wind:nth-child(2) { top: 40%; left: -10%; width: 150px; animation-duration: 4s; animation-delay: 1s; }
+        .wind:nth-child(3) { top: 60%; left: -30%; width: 80px; animation-duration: 6s; animation-delay: 0.5s; }
+        .wind:nth-child(4) { top: 80%; left: -20%; width: 120px; animation-duration: 5.5s; animation-delay: 2s; }
+        .wind:nth-child(5) { top: 10%; left: -25%; width: 60px; animation-duration: 7s; animation-delay: 1.5s; }
+
+        @keyframes windBlow {
+            0% { transform: translateX(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateX(120vw); opacity: 0; }
+        }
+
+        /* DECO: REST (Stars) */
         .star { position: absolute; background: white; border-radius: 50%; animation: twinkle infinite ease-in-out; }
         @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+
+        /* DECO: JOURNAL (Falling Leaves & Hills) */
+        .leaf {
+            position: absolute; width: 15px; height: 15px; background: #81C784; border-radius: 0 10px 3px 10px; opacity: 0;
+            animation: fallingLeaf 8s linear infinite;
+            z-index: 1;
+        }
+        .leaf:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .leaf:nth-child(2) { left: 30%; animation-delay: 2s; width: 10px; height: 10px; }
+        .leaf:nth-child(3) { left: 70%; animation-delay: 4s; }
+        .leaf:nth-child(4) { left: 50%; animation-delay: 1s; width: 12px; height: 12px; }
+        .leaf:nth-child(5) { left: 90%; animation-delay: 3s; }
+        @keyframes fallingLeaf {
+            0% { transform: translate(0, -20px) rotate(0deg); opacity: 0; } 10% { opacity: 0.7; } 100% { transform: translate(50px, 100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .hills {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 30%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23A5D6A7" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover; background-repeat: no-repeat; z-index: 0;
+        }
+        .hills-back {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 45%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23C8E6C9" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover; background-repeat: no-repeat; opacity: 0.8; z-index: -1;
+        }
 
         /* --- APP CONTAINER --- */
         #app {
@@ -89,9 +183,12 @@
         
         /* --- COMPONENTS --- */
         .card {
-            background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.6); border-radius: var(--radius-lg);
-            padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-soft);
+            background: var(--card-bg); 
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem; margin-bottom: 1.5rem; 
+            box-shadow: var(--shadow-soft);
             color: var(--text-main) !important;
             text-align: left;
         }
@@ -150,8 +247,16 @@
 
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 10px; }
         .day-name { font-size: 0.8rem; text-align: center; color: var(--text-light); font-weight: 600; }
-        .calendar-day { aspect-ratio: 1; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.5); cursor: pointer; font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
+        /* Calendar Day Updated Layout */
+        .calendar-day { 
+            aspect-ratio: 1; border-radius: 12px; 
+            display: flex; flex-direction: column; /* Stack date and icon */
+            align-items: center; justify-content: center; gap: 2px;
+            background: rgba(255,255,255,0.5); cursor: pointer; 
+            font-size: 0.9rem; font-weight: 600; color: var(--text-main); 
+        }
         .day-today { border: 2px solid var(--text-main); }
+        /* Calendar Mood Colors */
         .day-happy { background-color: var(--mood-happy); } .day-calm { background-color: var(--mood-calm); }
         .day-neutral { background-color: var(--mood-neutral); } .day-sad { background-color: var(--mood-sad); }
         .day-heavy { background-color: var(--mood-heavy); } .day-angry { background-color: var(--mood-angry); }
@@ -197,7 +302,7 @@
         /* Dark Mode Text Fix */
         body.dark-theme h1, body.dark-theme h2, body.dark-theme .btn-icon { color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-        /* Planner Specifics */
+        /* Planner Specifics (UPDATED BUTTON) */
         .category-group {
             background: rgba(255,255,255,0.4);
             border-radius: var(--radius-lg);
@@ -222,8 +327,17 @@
             padding: 10px;
             flex: 1;
         }
+        /* Style baru untuk tombol tambah tugas supaya ga nabrak */
         .add-task-wrapper button {
             flex-shrink: 0;
+            background-color: var(--primary-dark); 
+            color: white !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .add-task-wrapper button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
         }
 
     </style>
@@ -235,8 +349,13 @@
 
 <!-- DECORATIONS LAYER -->
 <div id="deco-home" class="decoration-layer active">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+    <div class="maple">🍂</div>
+    <div class="maple">🍂</div>
+    <div class="maple">🍂</div>
+    <div class="maple">🍂</div>
+    <div class="maple">🍂</div>
+    <div class="float-heart">💖</div>
+    <div class="float-heart">🤍</div>
 </div>
 
 <div id="deco-bloom" class="decoration-layer">
@@ -251,6 +370,33 @@
     <div class="star" style="width: 2px; height: 2px; top: 35%; left: 40%; animation-delay: 2s;"></div>
     <div class="star" style="width: 3px; height: 3px; top: 50%; left: 10%; animation-delay: 1.5s;"></div>
     <div class="star" style="width: 4px; height: 4px; top: 65%; left: 85%; animation-delay: 0.5s;"></div>
+</div>
+
+<!-- NEW DECORATION: JOURNAL (Falling Leaves & Hills) -->
+<div id="deco-journal" class="decoration-layer">
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="leaf"></div>
+    <div class="hills"></div>
+    <div class="hills-back"></div>
+</div>
+
+<!-- NEW DECORATION: PLANNER (Sunset Clouds) -->
+<div id="deco-planner" class="decoration-layer">
+    <div class="cloud" style="width: 130px; height: 45px; top: 15%; left: -20%; animation-duration: 35s; opacity: 0.6;"></div>
+    <div class="cloud" style="width: 90px; height: 30px; top: 35%; left: -10%; animation-duration: 45s; opacity: 0.5;"></div>
+    <div class="cloud" style="width: 150px; height: 50px; top: 55%; left: -25%; animation-duration: 30s; opacity: 0.4;"></div>
+</div>
+
+<!-- NEW DECORATION: SETTINGS (Wind) -->
+<div id="deco-settings" class="decoration-layer">
+    <div class="wind"></div>
+    <div class="wind"></div>
+    <div class="wind"></div>
+    <div class="wind"></div>
+    <div class="wind"></div>
 </div>
 
 <div id="app">
@@ -702,7 +848,24 @@
                 const d=new Date(BloomApp.state.curYear, BloomApp.state.curMonth, 1); document.getElementById('cal-month-year').innerText = d.toLocaleDateString('id-ID',{month:'long',year:'numeric'}); const c = document.getElementById('calendar-days'); c.innerHTML='';
                 for(let i=0;i<d.getDay();i++) c.innerHTML+=`<div class="calendar-day" style="background:transparent;cursor:default"></div>`;
                 const dim = new Date(BloomApp.state.curYear, BloomApp.state.curMonth+1,0).getDate(); const all = Storage.getJournal();
-                for(let i=1;i<=dim;i++) { const k=`${BloomApp.state.curYear}-${String(BloomApp.state.curMonth+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`; const dt=all[k]; let cls=''; if(dt){ const m=dt.rest?.mood||dt.bloom?.mood; if(m) cls=`day-${m}`; } if(k===Storage.getTodayKey()) cls+=' day-today'; c.innerHTML+=`<div class="calendar-day ${cls}" onclick="BloomApp.calendar.show('${k}')">${i}</div>`; }
+                for(let i=1;i<=dim;i++) { 
+                    const k=`${BloomApp.state.curYear}-${String(BloomApp.state.curMonth+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`; 
+                    const dt=all[k]; 
+                    let cls=''; 
+                    let content = `<span>${i}</span>`;
+                    
+                    if(dt){ 
+                        const m=dt.rest?.mood||dt.bloom?.mood; 
+                        if(m) {
+                            cls=`day-${m}`; 
+                            // Add mood emoji
+                            const moodEmoji = MOODS.find(x => x.id === m)?.emoji || '';
+                            if(moodEmoji) content += `<span style="font-size:0.7rem; margin-top: -2px;">${moodEmoji}</span>`;
+                        }
+                    } 
+                    if(k===Storage.getTodayKey()) cls+=' day-today'; 
+                    c.innerHTML+=`<div class="calendar-day ${cls}" onclick="BloomApp.calendar.show('${k}')">${content}</div>`; 
+                }
             },
             prevMonth() { BloomApp.state.curMonth--; if(BloomApp.state.curMonth<0){BloomApp.state.curMonth=11;BloomApp.state.curYear--;} this.render(); }, nextMonth() { BloomApp.state.curMonth++; if(BloomApp.state.curMonth>11){BloomApp.state.curMonth=0;BloomApp.state.curYear++;} this.render(); },
             show(k) {
@@ -724,11 +887,21 @@
                 const bg = document.getElementById('global-bg'); document.querySelectorAll('.decoration-layer').forEach(d=>d.classList.remove('active'));
                 bg.className = ''; 
                 
-                if(['home', 'planner', 'settings'].includes(id)) {
-                    bg.classList.add('bg-home');
-                    document.getElementById('deco-home').classList.add('active');
+                if(id==='home') { 
+                    bg.classList.add('bg-home'); 
+                    document.getElementById('deco-home').classList.add('active'); 
+                    document.body.classList.remove('dark-theme'); 
+                    BloomApp.renderHomeMorningSummary(); 
+                }
+                else if(id==='settings') {
+                    bg.classList.add('bg-settings'); // Updated to use specific settings background
+                    document.getElementById('deco-settings').classList.add('active'); // Wind lines
                     document.body.classList.remove('dark-theme');
-                    if(id === 'home') BloomApp.renderHomeMorningSummary();
+                }
+                else if(id === 'planner') {
+                    bg.classList.add('bg-planner'); 
+                    document.getElementById('deco-planner').classList.add('active'); 
+                    document.body.classList.add('dark-theme'); 
                 }
                 else if(id==='bloom') { bg.classList.add('bg-bloom'); document.getElementById('deco-bloom').classList.add('active'); document.body.classList.remove('dark-theme'); }
                 else if(id==='rest') { 
@@ -749,7 +922,13 @@
                         } else { todoContainer.style.display = 'none'; }
                     } else { reviewSec.style.display = 'none'; }
                 }
-                else if(id==='calendar') { bg.classList.add('bg-journal'); document.body.classList.remove('dark-theme'); BloomApp.calendar.render(); }
+                else if(id==='calendar') { 
+                    bg.classList.add('bg-journal'); 
+                    document.getElementById('deco-journal').classList.add('active'); 
+                    document.body.classList.remove('dark-theme'); 
+                    BloomApp.calendar.render(); 
+                }
+                
                 if(id==='planner') BloomApp.planner.render(); window.scrollTo(0,0);
             }
         }
