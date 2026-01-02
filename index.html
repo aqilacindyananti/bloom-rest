@@ -74,7 +74,7 @@
         #global-bg.bg-planner {
             background: linear-gradient(180deg, #6C5B7B 0%, #C06C84 50%, #F8B195 100%);
         }
-        /* MODE: SETTINGS (Morning Wind) - NEW! */
+        /* MODE: SETTINGS (Morning Wind) */
         #global-bg.bg-settings {
             background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
         }
@@ -120,7 +120,7 @@
         .cloud::before { width: 40%; height: 120%; top: -45%; right: 15%; }
         @keyframes moveCloud { from { transform: translateX(-100%); } to { transform: translateX(100vw); } }
 
-        /* DECO: SETTINGS (Wind Lines) - NEW! */
+        /* DECO: SETTINGS (Wind Lines) */
         .wind {
             position: absolute;
             height: 2px;
@@ -413,6 +413,16 @@
         </div>
 
         <div>
+            <!-- Home Spotify (New) -->
+            <div class="card centered" style="position: relative; overflow: hidden; display:none;" id="home-spotify-container">
+                <div style="padding: 10px; background: rgba(255,255,255,0.5);">
+                    <h4 style="margin:0; font-size: 0.9rem; display:flex; align-items:center; justify-content:center; gap:5px;">
+                        <i class="ph-fill ph-music-note"></i> Lagu Pilihanmu
+                    </h4>
+                </div>
+                <iframe id="spotify-home" style="border-radius:0px 0px 12px 12px" src="" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
             <!-- Lyric of the day -->
             <div class="card centered" style="position: relative; overflow: hidden;">
                 <i class="ph-fill ph-spotify-logo" style="font-size: 3rem; color: #1DB954; position: absolute; top: -10px; left: 10px; opacity: 0.2;"></i>
@@ -598,8 +608,11 @@
         <h2>⚙️ Pengaturan</h2>
         <div class="card">
             <h3>🎵 Link Spotify</h3>
-            <div style="margin-top: 15px;"><label class="text-xs">Lagu Pagi</label><input type="text" id="setting-spotify-bloom"></div>
-            <div><label class="text-xs">Lagu Malam</label><input type="text" id="setting-spotify-rest"></div>
+            <p class="text-light text-xs">Masukkan link lagu untuk tampilan Home.</p>
+            <div style="margin-top: 15px;">
+                <label class="text-xs">Lagu Favorit (Home)</label>
+                <input type="text" id="setting-spotify-home" placeholder="Paste link Spotify di sini...">
+            </div>
             <button class="btn btn-primary btn-sm" onclick="BloomApp.settings.saveSpotify()">Simpan Lagu</button>
         </div>
         <div class="card">
@@ -746,7 +759,25 @@
         },
         setGreeting() { const h = new Date().getHours(); document.getElementById('greeting').innerText = h<11?"Selamat Pagi ☀️":h<15?"Selamat Siang 🌤️":h<18?"Selamat Sore 🌥️":"Selamat Malam 🌙"; },
         setDailyLyric() { const r = DATA.lyrics[Math.floor(Math.random()*DATA.lyrics.length)]; document.getElementById('daily-lyric-text').innerText = `"${r.text}"`; document.getElementById('daily-lyric-source').innerText = r.source; },
-        loadSpotify() { const s = Storage.getSettings(); document.getElementById('spotify-bloom').src = s.spotify_bloom || DATA.defaultSpotify.bloom; document.getElementById('spotify-rest').src = s.spotify_rest || DATA.defaultSpotify.rest; },
+        loadSpotify() {
+            const s = Storage.getSettings();
+            
+            // Home Player
+            const homeContainer = document.getElementById('home-spotify-container');
+            if(s.spotify_home) {
+                document.getElementById('spotify-home').src = s.spotify_home;
+                homeContainer.style.display = 'block';
+                // We don't populate the setting input with the embed URL automatically to avoid confusion if it was empty, 
+                // but if we want persistence in input field we can:
+                if(document.getElementById('setting-spotify-home')) document.getElementById('setting-spotify-home').value = s.spotify_home;
+            } else {
+                homeContainer.style.display = 'none';
+            }
+
+            // Fixed Bloom/Rest Players (Always Default)
+            document.getElementById('spotify-bloom').src = DATA.defaultSpotify.bloom;
+            document.getElementById('spotify-rest').src = DATA.defaultSpotify.rest;
+        },
         renderMoods(id, type) { document.getElementById(id).innerHTML = MOODS.map(m => `<div class="mood-option" onclick="BloomApp.selectMood('${type}','${m.id}',this)"><span class="mood-emoji">${m.emoji}</span><span style="font-size:0.7rem;color:#888">${m.label}</span></div>`).join(''); },
         selectMood(type, id, el) { Array.from(el.parentElement.children).forEach(c=>c.classList.remove('selected')); el.classList.add('selected'); if(type==='bloom') this.state.moodBloom=id; else this.state.moodRest=id; },
         
@@ -876,7 +907,19 @@
                 document.getElementById('detail-rest-mood').innerText=m(d.rest?.mood); document.getElementById('detail-recap').innerText=d.rest?.recap||'-'; document.getElementById('detail-gratitude').innerText=d.rest?.gratitude||'-';
             }
         },
-        settings: { saveSpotify() { const b=SpotifyHelper.convertToEmbed(document.getElementById('setting-spotify-bloom').value); const r=SpotifyHelper.convertToEmbed(document.getElementById('setting-spotify-rest').value); Storage.saveSettings({ spotify_bloom: b||document.getElementById('setting-spotify-bloom').value, spotify_rest: r||document.getElementById('setting-spotify-rest').value }); BloomApp.loadSpotify(); alert("Disimpan!"); } },
+        settings: { saveSpotify() { 
+            const rawInput = document.getElementById('setting-spotify-home').value;
+            const embedUrl = SpotifyHelper.convertToEmbed(rawInput);
+            
+            if (rawInput && !embedUrl) {
+                alert("Link tidak valid! Pastikan link dari Spotify."); 
+                return;
+            }
+
+            Storage.saveSettings({ spotify_home: embedUrl }); 
+            BloomApp.loadSpotify(); 
+            alert("Lagu Home berhasil disimpan!");
+        } },
         router: {
             go(id) {
                 document.querySelectorAll('.view').forEach(e=>e.classList.remove('active')); document.getElementById(`view-${id}`).classList.add('active');
@@ -887,21 +930,22 @@
                 const bg = document.getElementById('global-bg'); document.querySelectorAll('.decoration-layer').forEach(d=>d.classList.remove('active'));
                 bg.className = ''; 
                 
-                if(id==='home') { 
-                    bg.classList.add('bg-home'); 
-                    document.getElementById('deco-home').classList.add('active'); 
-                    document.body.classList.remove('dark-theme'); 
-                    BloomApp.renderHomeMorningSummary(); 
-                }
-                else if(id==='settings') {
-                    bg.classList.add('bg-settings'); // Updated to use specific settings background
-                    document.getElementById('deco-settings').classList.add('active'); // Wind lines
-                    document.body.classList.remove('dark-theme');
-                }
-                else if(id === 'planner') {
-                    bg.classList.add('bg-planner'); 
-                    document.getElementById('deco-planner').classList.add('active'); 
-                    document.body.classList.add('dark-theme'); 
+                if(['home', 'planner', 'settings'].includes(id)) {
+                    // Logic Background per ID
+                    if(id === 'home') {
+                        bg.classList.add('bg-home');
+                        document.getElementById('deco-home').classList.add('active');
+                        document.body.classList.remove('dark-theme');
+                        BloomApp.renderHomeMorningSummary();
+                    } else if (id === 'settings') {
+                        bg.classList.add('bg-settings');
+                        document.getElementById('deco-settings').classList.add('active');
+                        document.body.classList.remove('dark-theme');
+                    } else if (id === 'planner') {
+                        bg.classList.add('bg-planner'); 
+                        document.getElementById('deco-planner').classList.add('active'); 
+                        document.body.classList.add('dark-theme'); 
+                    }
                 }
                 else if(id==='bloom') { bg.classList.add('bg-bloom'); document.getElementById('deco-bloom').classList.add('active'); document.body.classList.remove('dark-theme'); }
                 else if(id==='rest') { 
