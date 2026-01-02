@@ -42,19 +42,16 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #FDFBF7;
             color: var(--text-main);
-            /* FIX MOBILE: Kunci background biar ga gerak pas scroll */
             background-attachment: fixed;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             transition: background 0.5s ease, color 0.3s ease;
-            
-            /* CENTER LAYOUT RESTORED */
             display: flex;
             justify-content: center; 
         }
 
-        /* --- GLOBAL BACKGROUND LAYER (FIX FOR MOBILE) --- */
+        /* --- GLOBAL BACKGROUND LAYER --- */
         #global-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -87,7 +84,7 @@
             padding-bottom: 90px;
             display: flex; flex-direction: column;
             position: relative; z-index: 1;
-            text-align: center; /* KEMBALI KE TENGAH */
+            text-align: center;
         }
         
         /* --- COMPONENTS --- */
@@ -96,10 +93,8 @@
             border: 1px solid rgba(255,255,255,0.6); border-radius: var(--radius-lg);
             padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-soft);
             color: var(--text-main) !important;
-            text-align: left; /* Default card content left aligned for readability */
+            text-align: left;
         }
-        
-        /* Center content inside specific cards if needed */
         .card.centered { text-align: center; }
 
         h1, h2, h3 { font-weight: 700; margin-bottom: 0.5rem; text-align: center; }
@@ -194,7 +189,7 @@
         .morning-summary-box {
             background: linear-gradient(135deg, #fff 0%, #FFF3E0 100%);
             border: 1px solid #FFE0B2;
-            padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-align: left; /* List stays left */
+            padding: 1rem; border-radius: 12px; margin-bottom: 1rem; text-align: left;
         }
         .morning-item { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
         .morning-dot { width: 8px; height: 8px; background: #FFB74D; border-radius: 50%; flex-shrink: 0; }
@@ -202,7 +197,7 @@
         /* Dark Mode Text Fix */
         body.dark-theme h1, body.dark-theme h2, body.dark-theme .btn-icon { color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-        /* Planner Specifics (New) */
+        /* Planner Specifics */
         .category-group {
             background: rgba(255,255,255,0.4);
             border-radius: var(--radius-lg);
@@ -279,14 +274,14 @@
                 <p id="daily-lyric-source" class="text-xs text-light">Song - Artist</p>
             </div>
 
-            <!-- MORNING SUMMARY (Only appears if filled) -->
+            <!-- MORNING SUMMARY -->
             <div id="home-morning-summary" style="display: none;">
                 <!-- Injected via JS -->
             </div>
 
             <!-- Mini Games Grid -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 1.5rem;">
-                <div class="card reveal-card centered" style="margin-bottom: 0; padding: 1rem;" onclick="app.fortune.open()">
+                <div class="card reveal-card centered" style="margin-bottom: 0; padding: 1rem;" onclick="BloomApp.fortune.open()">
                     <div id="cookie-closed">
                         <i class="ph-fill ph-cookie" style="font-size: 2.5rem; color: #D4A373;"></i>
                         <p style="font-size: 0.85rem; font-weight: 600; color: #D4A373; margin-top: 5px;">Fortune Cookie</p>
@@ -294,10 +289,10 @@
                     <div id="cookie-opened" style="display: none; animation: fadeIn 0.5s;">
                         <p class="text-xs text-light">Kata hari ini:</p>
                         <p id="fortune-text" style="font-size: 0.85rem; font-weight: 600; color: var(--primary-dark); margin: 5px 0;">"..."</p>
-                        <button class="btn-outline btn-sm" style="border-radius: 20px; font-size: 0.7rem; padding: 4px 8px;" onclick="event.stopPropagation(); app.fortune.reset()">Tutup</button>
+                        <button class="btn-outline btn-sm" style="border-radius: 20px; font-size: 0.7rem; padding: 4px 8px;" onclick="event.stopPropagation(); BloomApp.fortune.reset()">Tutup</button>
                     </div>
                 </div>
-                <div class="card reveal-card centered" style="margin-bottom: 0; padding: 1rem;" onclick="app.quran.open()">
+                <div class="card reveal-card centered" style="margin-bottom: 0; padding: 1rem;" onclick="BloomApp.quran.open()">
                     <div id="quran-closed">
                         <i class="ph-fill ph-book-open-text" style="font-size: 2.5rem; color: #81C784;"></i>
                         <p style="font-size: 0.85rem; font-weight: 600; color: #81C784; margin-top: 5px;">Pesan Langit</p>
@@ -305,26 +300,26 @@
                     <div id="quran-opened" style="display: none; animation: fadeIn 0.5s;">
                         <p id="quran-text" style="font-size: 0.85rem; font-weight: 600; color: #2E7D32; margin: 5px 0;">"..."</p>
                         <p id="quran-surah" style="font-size: 0.7rem; color: #81C784; font-style: italic; margin-bottom: 5px;">QS...</p>
-                        <button class="btn-outline btn-sm" style="border-radius: 20px; font-size: 0.7rem; padding: 4px 8px; border-color: #81C784; color: #2E7D32;" onclick="event.stopPropagation(); app.quran.reset()">Tutup</button>
+                        <button class="btn-outline btn-sm" style="border-radius: 20px; font-size: 0.7rem; padding: 4px 8px; border-color: #81C784; color: #2E7D32;" onclick="event.stopPropagation(); BloomApp.quran.reset()">Tutup</button>
                     </div>
                 </div>
             </div>
 
             <!-- Actions -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="card centered" style="margin-bottom: 0; background: linear-gradient(135deg, #fff 0%, #FFF8E1 100%); cursor: pointer;" onclick="app.router.go('bloom')">
+                <div class="card centered" style="margin-bottom: 0; background: linear-gradient(135deg, #fff 0%, #FFF8E1 100%); cursor: pointer;" onclick="BloomApp.router.go('bloom')">
                     <i class="ph-fill ph-sun" style="font-size: 2rem; color: #FFB74D; margin-bottom: 10px;"></i>
                     <h3>Morning</h3>
                     <p class="text-light text-xs">Mulai hari dengan niat.</p>
                 </div>
-                <div class="card centered" style="margin-bottom: 0; background: linear-gradient(135deg, #fff 0%, #E3F2FD 100%); cursor: pointer;" onclick="app.router.go('rest')">
+                <div class="card centered" style="margin-bottom: 0; background: linear-gradient(135deg, #fff 0%, #E3F2FD 100%); cursor: pointer;" onclick="BloomApp.router.go('rest')">
                     <i class="ph-fill ph-moon-stars" style="font-size: 2rem; color: #5C6BC0; margin-bottom: 10px;"></i>
                     <h3>Night</h3>
                     <p class="text-light text-xs">Tutup hari dengan tenang.</p>
                 </div>
             </div>
 
-            <div class="card" style="margin-top: 1.5rem;" onclick="app.router.go('planner')">
+            <div class="card" style="margin-top: 1.5rem;" onclick="BloomApp.router.go('planner')">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                     <h3 style="margin:0;">🎯 Minggu Ini</h3>
                     <span class="text-light text-xs">Lihat Semua ></span>
@@ -338,7 +333,7 @@
     <div id="view-bloom" class="view">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
             <h2 style="margin:0; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">☀️ Morning Bloom</h2>
-            <button class="btn-icon" onclick="app.router.go('home')"><i class="ph ph-x"></i></button>
+            <button class="btn-icon" onclick="BloomApp.router.go('home')"><i class="ph ph-x"></i></button>
         </div>
         <div class="card" style="padding: 0; overflow: hidden;">
             <div style="padding: 15px; background: rgba(255,255,255,0.5);">
@@ -362,7 +357,7 @@
                 <input type="text" class="todo-input" placeholder="3. ...">
             </div>
         </div>
-        <button class="btn btn-primary" onclick="app.bloom.save()">Simpan Bloom</button>
+        <button class="btn btn-primary" onclick="BloomApp.bloom.save()">Simpan Bloom</button>
         <br><br><br>
     </div>
 
@@ -370,7 +365,7 @@
     <div id="view-rest" class="view">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
             <h2 style="margin:0;">🌙 Night Rest</h2>
-            <button class="btn-icon" onclick="app.router.go('home')"><i class="ph ph-x"></i></button>
+            <button class="btn-icon" onclick="BloomApp.router.go('home')"><i class="ph ph-x"></i></button>
         </div>
         <div class="card" style="padding: 0; overflow: hidden;">
             <div style="padding: 15px; background: rgba(255,255,255,0.5);">
@@ -382,10 +377,17 @@
         <!-- MORNING REVIEW -->
         <div class="card" id="night-review-section" style="display:none; background: #FFF3E0; border: 1px solid #FFE0B2;">
             <h3 style="color: #F57C00;">Review Niat Pagi</h3>
-            <p class="text-xs text-light" style="margin-bottom:10px; text-align: center;">Tadi pagi kamu menulis:</p>
-            <p id="review-intention-text" style="font-weight:600; margin-bottom:10px; font-style:italic; text-align: center;">"..."</p>
-            <div style="margin-top:10px; border-top:1px dashed #FFE0B2; padding-top:10px;">
-                <p class="text-xs" style="text-align: center;">Gimana? Tercapai hari ini?</p>
+            
+            <div id="review-intention-wrapper" style="display:none; margin-bottom:15px;">
+                <p class="text-xs text-light" style="margin-bottom:5px; text-align: center;">Niatmu tadi pagi:</p>
+                <p id="review-intention-text" style="font-weight:600; font-style:italic; text-align: center;">"..."</p>
+            </div>
+
+            <!-- TODO CHECKLIST CONTAINER -->
+            <div id="night-review-todos" style="margin-top:10px;"></div>
+
+            <div style="margin-top:15px; border-top:1px dashed #FFE0B2; padding-top:10px;">
+                <p class="text-xs" style="text-align: center;">Catatan kecil untuk hari ini:</p>
                 <input type="text" id="rest-review-note" placeholder="Ceritain dikit..." style="background:white;">
             </div>
         </div>
@@ -407,7 +409,7 @@
             <h3>1 Gratitude</h3>
             <input type="text" id="rest-gratitude" placeholder="Aku bersyukur karena...">
         </div>
-        <button class="btn btn-primary" onclick="app.rest.saveAndStartFlow()">Selesai & Istirahat</button>
+        <button class="btn btn-primary" onclick="BloomApp.rest.saveAndStartFlow()">Selesai & Istirahat</button>
         <br><br><br>
     </div>
 
@@ -415,7 +417,7 @@
     <div id="view-planner" class="view">
         <h2>📝 Tugas Minggu Ini</h2>
         <div id="planner-container"></div>
-        <button class="btn btn-outline" onclick="app.planner.addCategoryPrompt()">+ Tambah Kategori Baru</button>
+        <button class="btn btn-outline" onclick="BloomApp.planner.addCategoryPrompt()">+ Tambah Kategori Baru</button>
         <br><br><br> 
     </div>
 
@@ -424,9 +426,9 @@
         <h2>📅 Mood Calendar</h2>
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
-                <button class="btn-icon" style="background:var(--primary-soft)" onclick="app.calendar.prevMonth()">&lt;</button>
+                <button class="btn-icon" style="background:var(--primary-soft)" onclick="BloomApp.calendar.prevMonth()">&lt;</button>
                 <h3 id="cal-month-year" style="margin:0;">Januari 2026</h3>
-                <button class="btn-icon" style="background:var(--primary-soft)" onclick="app.calendar.nextMonth()">&gt;</button>
+                <button class="btn-icon" style="background:var(--primary-soft)" onclick="BloomApp.calendar.nextMonth()">&gt;</button>
             </div>
             <div class="calendar-grid">
                 <div class="day-name">Min</div><div class="day-name">Sen</div><div class="day-name">Sel</div><div class="day-name">Rab</div><div class="day-name">Kam</div><div class="day-name">Jum</div><div class="day-name">Sab</div>
@@ -452,11 +454,11 @@
             <h3>🎵 Link Spotify</h3>
             <div style="margin-top: 15px;"><label class="text-xs">Lagu Pagi</label><input type="text" id="setting-spotify-bloom"></div>
             <div><label class="text-xs">Lagu Malam</label><input type="text" id="setting-spotify-rest"></div>
-            <button class="btn btn-primary btn-sm" onclick="app.settings.saveSpotify()">Simpan Lagu</button>
+            <button class="btn btn-primary btn-sm" onclick="BloomApp.settings.saveSpotify()">Simpan Lagu</button>
         </div>
         <div class="card">
             <h3>Data</h3>
-            <button class="btn btn-outline" style="color: #ff6b6b; border-color: #ff6b6b;" onclick="app.storage.clear()">Reset Semua Data</button>
+            <button class="btn btn-outline" style="color: #ff6b6b; border-color: #ff6b6b;" onclick="BloomApp.storage.clear()">Reset Semua Data</button>
         </div>
     </div>
 
@@ -472,37 +474,99 @@
 
     <!-- NAVBAR -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="app.router.go('home')" data-target="home"><i class="ph ph-house"></i><span>Home</span></div>
-        <div class="nav-item" onclick="app.router.go('planner')" data-target="planner"><i class="ph ph-list-checks"></i><span>Tugas</span></div>
-        <div class="nav-item" onclick="app.router.go('calendar')" data-target="calendar"><i class="ph ph-calendar-heart"></i><span>Jurnal</span></div>
-        <div class="nav-item" onclick="app.router.go('settings')" data-target="settings"><i class="ph ph-gear"></i><span>Settings</span></div>
+        <div class="nav-item active" onclick="BloomApp.router.go('home')" data-target="home"><i class="ph ph-house"></i><span>Home</span></div>
+        <div class="nav-item" onclick="BloomApp.router.go('planner')" data-target="planner"><i class="ph ph-list-checks"></i><span>Tugas</span></div>
+        <div class="nav-item" onclick="BloomApp.router.go('calendar')" data-target="calendar"><i class="ph ph-calendar-heart"></i><span>Jurnal</span></div>
+        <div class="nav-item" onclick="BloomApp.router.go('settings')" data-target="settings"><i class="ph ph-gear"></i><span>Settings</span></div>
     </div>
 
 </div>
 
 <script>
+    /* ================= DATA & CONSTANTS ================= */
     const DATA = {
         lyrics: [
-            { text: "Tenangkan hati, semua ini bukan salahmu.", source: "Rehat - Kunto Aji" },
+            // INDONESIA
+            { text: "Tenangkan hati, semua ini bukan salahmu. Jangan berhenti yang kau takutkan takkan terjadi.", source: "Rehat - Kunto Aji" },
             { text: "Bernafaslah sejenak, lupakanlah beban di pundak.", source: "Rehat - Kunto Aji" },
-            { text: "Yang patah tumbuh, yang hilang berganti.", source: "Banda Neira" },
+            { text: "Yang patah tumbuh, yang hilang berganti.", source: "Yang Patah Tumbuh - Banda Neira" },
+            { text: "Kita manusia, wajar jika tak sempurna. Saat kau jatuh, bangkitlah perlahan.", source: "Memulai Kembali - Monita Tahalea" },
             { text: "Luka-luka hilanglah lara. Kau berharga, kau berhak bahagia.", source: "Diri - Tulus" },
-            { text: "Kau bisa patahkan kakiku, tapi tidak mimpi-mimpiku.", source: "Manusia Kuat - Tulus" },
-            { text: "Aku tak sempurna, tak perlu sempurna. Akan kurayakan apa adanya.", source: "Tutur Batin - Yura" },
-            { text: "Perjalanan masih panjang, tak perlu tergesa-gesa.", source: "Evaluasi - Hindia" },
+            { text: "Katakan pada dirimu: 'Terima kasih sudah bertahan hebat hingga kini'.", source: "Diri - Tulus" },
+            { text: "Maafkan semua yang lalu, ampuni hati kecilmu.", source: "Diri - Tulus" },
+            { text: "Kau bisa patahkan kakiku, tapi tidak mimpi-mimpiku. Kau manusia kuat.", source: "Manusia Kuat - Tulus" },
+            { text: "Aku tak sempurna, tak perlu sempurna. Akan kurayakan apa adanya.", source: "Tutur Batin - Yura Yunita" },
+            { text: "Kau terjatuh dan terjaga, kau sedih dan bahagia. Kau tetap indah.", source: "Tenang - Yura Yunita" },
+            { text: "Perjalanan masih panjang, tak perlu tergesa-gesa. Masalah pelik percaya kan reda.", source: "Evaluasi - Hindia" },
+            { text: "Apapun yang kau yakini, semoga itu yang kau dapati.", source: "Secukupnya - Hindia" },
             { text: "Untungnya bumi masih berputar, untungnya ku tak pilih menyerah.", source: "Untungnya - Bernadya" },
-            { text: "Cukupkanlah, ikat rambutmu. Basuh wajahmu, dunia belum berakhir.", source: "Nadin Amizah" },
-            { text: "Lights will guide you home, and ignite your bones.", source: "Fix You - Coldplay" },
+            { text: "Takut tambah dewasa, takut aku kecewa. Takut tak seindah yang kukira.", source: "Takut - Idgitaf" },
+            { text: "Cukupkanlah, ikat rambutmu. Basuh wajahmu, dunia belum berakhir.", source: "Beranjak Dewasa - Nadin Amizah" },
+            { text: "Langit dan laut saling membantu, membenih hujan, mengirim rindu.", source: "Sorai - Nadin Amizah" },
+            { text: "Biar ku gendong pulang, kau mengantuk, biar ku gendong pulang.", source: "Ikat Aku di Tulang Belikatmu - Sal Priadi" },
+            { text: "Bahagia itu sederhana, sesederhana kamu tersenyum dan bersyukur.", source: "Bahagia - GAC" },
+            { text: "Dan lapangkan dadamu, untuk terima itu. Agar senang hatimu, agar tenang jiwamu.", source: "Lapang Dada - Sheila On 7" },
+            { text: "Menarilah dan terus tertawa, walau dunia tak seindah surga.", source: "Laskar Pelangi - Nidji" },
+            { text: "Tenang, tenang yang tak kunjung datang. Menanti-nanti cahaya-Mu, beri aku petunjuk-Mu.", source: "Tenang - Yura Yunita" },
+            { text: "Kita adalah sepasang sepatu, selalu bersama tak bisa bersatu.", source: "Sepatu - Tulus" },
+            { text: "Dunia tipu-tipu, kita bisa pura-pura gila.", source: "Dunia Tipu-Tipu - Yura Yunita" },
+            { text: "Cukup tahu, ku tak mau tahu lagi.", source: "Cukup Tahu - Rizky Febian" },
+            
+            // WESTERN
+            { text: "Lights will guide you home, and ignite your bones. And I will try to fix you.", source: "Fix You - Coldplay" },
+            { text: "But I promise you this, I'll always look out for you.", source: "Sparks - Coldplay" },
+            { text: "Just because you're losing, doesn't mean you're lost.", source: "Lost - Coldplay" },
             { text: "And you're gonna be happy. Turn this all around.", source: "Zero O'Clock - BTS" },
-            { text: "Tak apa-apa jika kau kehabisan nafas, tidak ada yang menyalahkanmu.", source: "Breathe - Lee Hi" }
+            { text: "You can't stop me lovin' myself.", source: "Idol - BTS" },
+            { text: "Tak apa-apa jika kau kehabisan nafas, tidak ada yang menyalahkanmu.", source: "Breathe - Lee Hi" },
+            { text: "It's okay not to be okay. It's okay not to be alright.", source: "OK Not To Be OK - Marshmello & Demi Lovato" },
+            { text: "When you're down and out, remember everything will be okay.", source: "Be Alright - Dean Lewis" },
+            { text: "There's a hope that's waiting for you in the dark.", source: "Scars to Your Beautiful - Alessia Cara" },
+            { text: "You just gotta ignite the light, and let it shine.", source: "Firework - Katy Perry" },
+            { text: "Here comes the sun, and I say, it's all right.", source: "Here Comes The Sun - The Beatles" },
+            { text: "Don't stop believin', hold on to that feelin'.", source: "Don't Stop Believin' - Journey" },
+            { text: "What doesn't kill you makes you stronger.", source: "Stronger - Kelly Clarkson" },
+            { text: "I'm beautiful in my way 'cause God makes no mistakes.", source: "Born This Way - Lady Gaga" },
+            { text: "And I know that I can make it through the rain.", source: "Through The Rain - Mariah Carey" },
+            { text: "The sun goes down, the stars come out. And all that counts is here and now.", source: "Glad You Came - The Wanted" }
         ],
-        gratitude_prompts: ["Terima kasih sudah bertahan hari ini.", "Capekmu valid, istirahatmu layak.", "Aku memaafkan diriku hari ini.", "Tubuhku, terima kasih sudah kuat."],
-        prayers: ["Ya Tuhan, lindungilah tidurku.", "Bismika Allahumma ahya wa amut.", "Ya Allah, ampuni dosaku hari ini.", "Tuhan, jika hari ini aku terluka, sembuhkanlah."],
-        morning_prayers: ["Ya Allah, mudahkanlah urusanku.", "Bismillahi tawakkaltu 'alallah.", "Tuhan, jadikan hari ini lebih baik dari kemarin."],
-        morning_encouragements: ["Semoga hari ini membawa kabar baik!", "Kamu kuat, kamu mampu.", "Tarik napas, dunia menunggumu bersinar."],
-        night_closings: ["Selamat tidur, orang baik.", "Mimpi indah. Dunia akan baik-baik saja.", "Sampai jumpa besok pagi dengan semangat baru."],
-        affirmations: ["Aku berharga.", "Tidak apa-apa untuk memulai lagi.", "Aku dicintai.", "Langkah kecil tetaplah kemajuan."],
-        quran_quotes: [{ text: "Maka sesungguhnya bersama kesulitan ada kemudahan.", surah: "QS. Al-Insyirah: 5" }, { text: "Allah tidak membebani seseorang melainkan sesuai kesanggupannya.", surah: "QS. Al-Baqarah: 286" }],
+        gratitude_prompts: [
+            "Terima kasih sudah bertahan hari ini.", "Capekmu valid, istirahatmu layak.", "Aku memaafkan diriku hari ini.", 
+            "Tubuhku, terima kasih sudah kuat.", "Pikiran, terima kasih sudah bekerja keras.", "Aku bersyukur untuk hal-hal kecil.",
+            "Terima kasih diriku, sudah mau mencoba lagi.", "Hari ini berat, tapi aku berhasil melewatinya.",
+            "Aku bangga pada diriku sendiri.", "Terima kasih nafas, terima kasih detak jantung."
+        ],
+        prayers: [
+            "Ya Tuhan, lindungilah tidurku.", "Bismika Allahumma ahya wa amut.", "Ya Allah, ampuni dosaku hari ini.", 
+            "Tuhan, jika hari ini aku terluka, sembuhkanlah.", "Lindungi orang-orang yang kucintai.",
+            "Ya Allah, jauhkanlah aku dari mimpi buruk.", "Tuhan, berikanlah aku istirahat yang berkualitas."
+        ],
+        morning_prayers: [
+            "Ya Allah, mudahkanlah urusanku.", "Bismillahi tawakkaltu 'alallah.", "Tuhan, jadikan hari ini lebih baik.",
+            "Ya Allah, lindungilah aku dari hal-hal yang tidak baik.", "Semoga hari ini penuh dengan rezeki yang berkah."
+        ],
+        morning_encouragements: [
+            "Semoga hari ini membawa kabar baik!", "Kamu kuat, kamu mampu.", "Tarik napas, dunia menunggumu bersinar.",
+            "Lakukan yang terbaik, sisanya biar Tuhan yang atur.", "Jangan lupa tersenyum pada diri sendiri.",
+            "Satu langkah kecil hari ini adalah kemajuan besar."
+        ],
+        night_closings: [
+            "Selamat tidur, orang baik.", "Mimpi indah. Dunia akan baik-baik saja.", "Sampai jumpa besok pagi.",
+            "Istirahatlah, pikiranmu juga butuh jeda.", "Malam adalah selimut untuk jiwamu yang lelah.",
+            "Tutup matamu, biarkan damai menyelimutimu."
+        ],
+        affirmations: [
+            "Aku berharga.", "Tidak apa-apa untuk memulai lagi.", "Aku dicintai.", "Langkah kecil tetaplah kemajuan.",
+            "Aku memegang kendali atas reaksiku.", "Hari ini penuh kemungkinan.", "Aku percaya pada kemampuanku.",
+            "Aku berdamai dengan masa laluku.", "Aku bersyukur atas siapa diriku sekarang."
+        ],
+        quran_quotes: [
+            { text: "Maka sesungguhnya bersama kesulitan ada kemudahan.", surah: "QS. Al-Insyirah: 5" },
+            { text: "Allah tidak membebani seseorang melainkan sesuai kesanggupannya.", surah: "QS. Al-Baqarah: 286" },
+            { text: "Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.", surah: "QS. Ar-Ra'd: 28" },
+            { text: "Dan Tuhanmu Maha Pemaaf lagi mempunyai kasih sayang.", surah: "QS. Al-Kahfi: 58" },
+            { text: "Sesungguhnya Tuhanku benar-benar Maha Dekat.", surah: "QS. Hud: 61" }
+        ],
         defaultSpotify: { bloom: "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0", rest: "https://open.spotify.com/embed/playlist/5WPQ7cTY0btImTvJfzEF7X" }
     };
 
@@ -526,18 +590,18 @@
 
     const SpotifyHelper = { convertToEmbed(url) { if(!url) return null; if(url.includes('embed')) return url; try { const u=new URL(url); const p=u.pathname.split('/').filter(x=>x); if(p.length>=2) return `https://open.spotify.com/embed/${p[0]}/${p[1]}`; } catch(e){} return null; } };
 
-    const app = {
+    const BloomApp = {
         state: { moodBloom: null, moodRest: null, curMonth: new Date().getMonth(), curYear: new Date().getFullYear() },
         init() {
             this.setGreeting(); this.setDailyLyric(); this.loadSpotify(); this.planner.render(); this.planner.renderPreview();
             this.renderMoods('bloom-moods', 'bloom'); this.renderMoods('rest-moods', 'rest');
-            this.renderHomeMorningSummary(); // New Feature: Render morning summary on home
+            this.renderHomeMorningSummary(); 
             document.getElementById('current-date-display').innerText = new Date().toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
         },
         setGreeting() { const h = new Date().getHours(); document.getElementById('greeting').innerText = h<11?"Selamat Pagi ☀️":h<15?"Selamat Siang 🌤️":h<18?"Selamat Sore 🌥️":"Selamat Malam 🌙"; },
         setDailyLyric() { const r = DATA.lyrics[Math.floor(Math.random()*DATA.lyrics.length)]; document.getElementById('daily-lyric-text').innerText = `"${r.text}"`; document.getElementById('daily-lyric-source').innerText = r.source; },
         loadSpotify() { const s = Storage.getSettings(); document.getElementById('spotify-bloom').src = s.spotify_bloom || DATA.defaultSpotify.bloom; document.getElementById('spotify-rest').src = s.spotify_rest || DATA.defaultSpotify.rest; },
-        renderMoods(id, type) { document.getElementById(id).innerHTML = MOODS.map(m => `<div class="mood-option" onclick="app.selectMood('${type}','${m.id}',this)"><span class="mood-emoji">${m.emoji}</span><span style="font-size:0.7rem;color:#888">${m.label}</span></div>`).join(''); },
+        renderMoods(id, type) { document.getElementById(id).innerHTML = MOODS.map(m => `<div class="mood-option" onclick="BloomApp.selectMood('${type}','${m.id}',this)"><span class="mood-emoji">${m.emoji}</span><span style="font-size:0.7rem;color:#888">${m.label}</span></div>`).join(''); },
         selectMood(type, id, el) { Array.from(el.parentElement.children).forEach(c=>c.classList.remove('selected')); el.classList.add('selected'); if(type==='bloom') this.state.moodBloom=id; else this.state.moodRest=id; },
         
         renderHomeMorningSummary() {
@@ -552,34 +616,36 @@
                 html += `</div>`;
                 container.innerHTML = html;
                 container.style.display = 'block';
-            } else {
-                container.style.display = 'none';
-            }
+            } else { container.style.display = 'none'; }
         },
 
         bloom: {
             save() {
-                if(!app.state.moodBloom) return alert("Pilih mood dulu ya");
+                if(!BloomApp.state.moodBloom) return alert("Pilih mood dulu ya");
                 const i = document.getElementById('bloom-intention').value;
                 const t = Array.from(document.querySelectorAll('.todo-input')).map(x=>x.value).filter(x=>x.trim());
-                Storage.saveJournal(Storage.getTodayKey(), 'bloom', { mood: app.state.moodBloom, intention: i, todos: t });
-                app.overlay.showFlow('Pagi');
+                Storage.saveJournal(Storage.getTodayKey(), 'bloom', { mood: BloomApp.state.moodBloom, intention: i, todos: t });
+                BloomApp.overlay.showFlow('Pagi');
             }
         },
         rest: {
             saveAndStartFlow() {
-                if(!app.state.moodRest) return alert("Pilih mood dulu ya");
+                if(!BloomApp.state.moodRest) return alert("Pilih mood dulu ya");
                 const r = document.getElementById('rest-recap').value;
                 const g = document.getElementById('rest-gratitude').value;
-                const review = document.getElementById('rest-review-note').value; // Get review note
-                Storage.saveJournal(Storage.getTodayKey(), 'rest', { mood: app.state.moodRest, recap: r, gratitude: g, intentionReview: review });
-                app.overlay.showFlow('Malam');
+                const review = document.getElementById('rest-review-note').value; 
+                const totalTodos = document.querySelectorAll('#night-review-todos .task-check').length;
+                const checkedTodos = document.querySelectorAll('#night-review-todos .task-check.checked').length;
+                let isAllDone = false; let hasTodos = false;
+                if (totalTodos > 0) { hasTodos = true; isAllDone = (totalTodos === checkedTodos); }
+                Storage.saveJournal(Storage.getTodayKey(), 'rest', { mood: BloomApp.state.moodRest, recap: r, gratitude: g, intentionReview: review });
+                BloomApp.overlay.startNightFlow(isAllDone, hasTodos);
             }
         },
         planner: {
             data: [],
             load() { this.data = Storage.getPlanner(); },
-            render() { this.load(); const c = document.getElementById('planner-container'); c.innerHTML=''; if(this.data.length===0) c.innerHTML='<p class="text-light text-center">Kosong.</p>'; this.data.forEach((cat,i) => { let h = `<div class="category-group"><div class="category-header"><span class="category-title">${cat.title}</span><i class="ph ph-trash" style="color:#ff7675" onclick="app.planner.delCat(${i})"></i></div>`; cat.tasks.forEach((t,j) => h+=`<div class="task-item"><div class="task-check ${t.done?'checked':''}" onclick="app.planner.tog(${i},${j})"></div><span class="task-text ${t.done?'done':''}">${t.text}</span><i class="ph ph-trash delete-task" onclick="app.planner.delTask(${i},${j})"></i></div>`); h+=`<div class="add-task-wrapper"><input id="nt-${i}" placeholder="+ Tugas" style="margin:0;"><button class="btn-primary btn-icon" style="width:36px;height:36px" onclick="app.planner.add(${i})">+</button></div></div>`; c.innerHTML += h; }); },
+            render() { this.load(); const c = document.getElementById('planner-container'); c.innerHTML=''; if(this.data.length===0) c.innerHTML='<p class="text-light text-center">Kosong.</p>'; this.data.forEach((cat,i) => { let h = `<div class="category-group"><div class="category-header"><span class="category-title">${cat.title}</span><i class="ph ph-trash" style="color:#ff7675" onclick="BloomApp.planner.delCat(${i})"></i></div>`; cat.tasks.forEach((t,j) => h+=`<div class="task-item"><div class="task-check ${t.done?'checked':''}" onclick="BloomApp.planner.tog(${i},${j})"></div><span class="task-text ${t.done?'done':''}">${t.text}</span><i class="ph ph-trash delete-task" onclick="BloomApp.planner.delTask(${i},${j})"></i></div>`); h+=`<div class="add-task-wrapper"><input id="nt-${i}" placeholder="+ Tugas" style="margin:0;"><button class="btn-primary btn-icon" style="width:36px;height:36px" onclick="BloomApp.planner.add(${i})">+</button></div></div>`; c.innerHTML += h; }); },
             renderPreview() { this.load(); const p = document.getElementById('home-tasks-preview'); let all=[]; this.data.forEach(c=>c.tasks.forEach(t=>{if(!t.done)all.push(t.text)})); p.innerHTML = all.length ? all.slice(0,3).map(t=>`<div style="display:flex;gap:8px;align-items:center;margin-bottom:4px"><div style="width:6px;height:6px;background:var(--primary-dark);border-radius:50%"></div><span class="text-xs">${t}</span></div>`).join('') : '<p class="text-light text-xs">Semua selesai!</p>'; },
             addCategoryPrompt() { const t=prompt("Nama Kategori:"); if(t){ this.data.push({id:Date.now(),title:t,tasks:[]}); Storage.savePlanner(this.data); this.render(); } },
             delCat(i) { if(confirm("Hapus?")){ this.data.splice(i,1); Storage.savePlanner(this.data); this.render(); } },
@@ -589,52 +655,56 @@
         },
         overlay: {
             el: document.getElementById('gratitude-overlay'), title: document.getElementById('overlay-title'), text: document.getElementById('overlay-text'), icon: document.getElementById('overlay-icon'), acts: document.getElementById('overlay-actions'),
+            nightState: { isAllDone: false, hasTodos: false },
             showFlow(type) {
                 this.el.classList.add('show');
-                this.icon.classList.remove('pat-animation'); // Reset animation
+                this.icon.classList.remove('pat-animation');
                 if(type==='Pagi') {
                     this.title.innerText = "Doa Pagi"; this.icon.className="ph-fill ph-sun-horizon"; this.icon.style.color="#FFB74D";
                     this.text.innerText = DATA.morning_prayers[Math.floor(Math.random()*DATA.morning_prayers.length)];
-                    this.acts.innerHTML = `<button class="btn btn-primary" onclick="app.overlay.nextPagi()">Aamiin</button>`;
+                    this.acts.innerHTML = `<button class="btn btn-primary" onclick="BloomApp.overlay.nextPagi()">Aamiin</button>`;
                 } else {
                     this.title.innerText = "Terima Kasih"; this.icon.className="ph-fill ph-heart"; this.icon.style.color="#E57373";
                     this.text.innerText = DATA.gratitude_prompts[Math.floor(Math.random()*DATA.gratitude_prompts.length)];
-                    this.acts.innerHTML = `<button class="btn btn-primary" onclick="app.overlay.nextMalam()">Lanjut</button>`;
+                    this.acts.innerHTML = `<button class="btn btn-primary" onclick="BloomApp.overlay.nextMalam()">Lanjut</button>`;
                 }
+            },
+            startNightFlow(isAllDone, hasTodos) {
+                this.nightState = { isAllDone, hasTodos };
+                this.showFlow('Malam');
             },
             nextPagi() {
                 this.title.innerText = "Semangat!"; this.icon.className="ph-fill ph-sparkle"; this.text.innerText = DATA.morning_encouragements[Math.floor(Math.random()*DATA.morning_encouragements.length)];
-                this.acts.innerHTML = `<button class="btn btn-primary" onclick="app.overlay.close()">Mulai Hari</button>`;
+                this.acts.innerHTML = `<button class="btn btn-primary" onclick="BloomApp.overlay.close()">Mulai Hari</button>`;
             },
             nextMalam() {
                 this.title.innerText = "Selamat Malam"; this.icon.className="ph-fill ph-moon-stars"; this.icon.style.color="#5C6BC0";
                 this.text.innerText = DATA.night_closings[Math.floor(Math.random()*DATA.night_closings.length)];
-                this.acts.innerHTML = `<button class="btn btn-primary" onclick="app.overlay.showPatPat()">Tidur Nyenyak</button>`;
+                this.acts.innerHTML = `<button class="btn btn-primary" onclick="BloomApp.overlay.showPatPat()">Tidur Nyenyak</button>`;
             },
             showPatPat() {
                 this.title.innerText = "Good Job!"; 
-                this.icon.className="ph-fill ph-hand-heart pat-animation"; // Add animation class
+                this.icon.className="ph-fill ph-hand-heart pat-animation"; 
                 this.icon.style.color="#FFAB91";
-                this.text.innerText = "Kamu sudah melakukan yang terbaik hari ini. Istirahatlah dengan tenang.";
-                this.acts.innerHTML = `<p class="text-xs text-light" style="margin-top:10px;">Menutup dalam 3 detik...</p>`;
-                setTimeout(() => { app.overlay.close(); }, 3500);
+                if (this.nightState.hasTodos) {
+                    if (this.nightState.isAllDone) { this.text.innerText = "Hebat! Tuntas semua. Terima kasih sudah berjuang hari ini."; } 
+                    else { this.text.innerText = "Gapapa kalau belum semua, kita nggak lagi lomba kok. Kamu sudah berusaha, itu cukup."; }
+                } else { this.text.innerText = "Kamu sudah melakukan yang terbaik hari ini. Istirahatlah dengan tenang."; }
+                this.acts.innerHTML = `<p class="text-xs text-light" style="margin-top:10px;">Menutup dalam 4 detik...</p>`;
+                setTimeout(() => { BloomApp.overlay.close(); }, 4000);
             },
-            close() { 
-                this.el.classList.remove('show'); 
-                app.router.go('calendar'); 
-                app.init(); // Re-init to update home summary
-            }
+            close() { this.el.classList.remove('show'); BloomApp.router.go('calendar'); BloomApp.init(); }
         },
         fortune: { open() { document.getElementById('cookie-closed').style.display='none'; document.getElementById('cookie-opened').style.display='block'; document.getElementById('fortune-text').innerText = `"${DATA.affirmations[Math.floor(Math.random()*DATA.affirmations.length)]}"`; }, reset() { document.getElementById('cookie-opened').style.display='none'; document.getElementById('cookie-closed').style.display='block'; } },
         quran: { open() { document.getElementById('quran-closed').style.display='none'; document.getElementById('quran-opened').style.display='block'; const q = DATA.quran_quotes[Math.floor(Math.random()*DATA.quran_quotes.length)]; document.getElementById('quran-text').innerText = `"${q.text}"`; document.getElementById('quran-surah').innerText = q.surah; }, reset() { document.getElementById('quran-opened').style.display='none'; document.getElementById('quran-closed').style.display='block'; } },
         calendar: {
             render() {
-                const d=new Date(app.state.curYear, app.state.curMonth, 1); document.getElementById('cal-month-year').innerText = d.toLocaleDateString('id-ID',{month:'long',year:'numeric'}); const c = document.getElementById('calendar-days'); c.innerHTML='';
+                const d=new Date(BloomApp.state.curYear, BloomApp.state.curMonth, 1); document.getElementById('cal-month-year').innerText = d.toLocaleDateString('id-ID',{month:'long',year:'numeric'}); const c = document.getElementById('calendar-days'); c.innerHTML='';
                 for(let i=0;i<d.getDay();i++) c.innerHTML+=`<div class="calendar-day" style="background:transparent;cursor:default"></div>`;
-                const dim = new Date(app.state.curYear, app.state.curMonth+1,0).getDate(); const all = Storage.getJournal();
-                for(let i=1;i<=dim;i++) { const k=`${app.state.curYear}-${String(app.state.curMonth+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`; const dt=all[k]; let cls=''; if(dt){ const m=dt.rest?.mood||dt.bloom?.mood; if(m) cls=`day-${m}`; } if(k===Storage.getTodayKey()) cls+=' day-today'; c.innerHTML+=`<div class="calendar-day ${cls}" onclick="app.calendar.show('${k}')">${i}</div>`; }
+                const dim = new Date(BloomApp.state.curYear, BloomApp.state.curMonth+1,0).getDate(); const all = Storage.getJournal();
+                for(let i=1;i<=dim;i++) { const k=`${BloomApp.state.curYear}-${String(BloomApp.state.curMonth+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`; const dt=all[k]; let cls=''; if(dt){ const m=dt.rest?.mood||dt.bloom?.mood; if(m) cls=`day-${m}`; } if(k===Storage.getTodayKey()) cls+=' day-today'; c.innerHTML+=`<div class="calendar-day ${cls}" onclick="BloomApp.calendar.show('${k}')">${i}</div>`; }
             },
-            prevMonth() { app.state.curMonth--; if(app.state.curMonth<0){app.state.curMonth=11;app.state.curYear--;} this.render(); }, nextMonth() { app.state.curMonth++; if(app.state.curMonth>11){app.state.curMonth=0;app.state.curYear++;} this.render(); },
+            prevMonth() { BloomApp.state.curMonth--; if(BloomApp.state.curMonth<0){BloomApp.state.curMonth=11;BloomApp.state.curYear--;} this.render(); }, nextMonth() { BloomApp.state.curMonth++; if(BloomApp.state.curMonth>11){BloomApp.state.curMonth=0;BloomApp.state.curYear++;} this.render(); },
             show(k) {
                 const d=Storage.getJournal()[k]; if(!d) return;
                 document.getElementById('day-detail-panel').style.display='block'; document.getElementById('detail-date').innerText=k;
@@ -643,7 +713,7 @@
                 document.getElementById('detail-rest-mood').innerText=m(d.rest?.mood); document.getElementById('detail-recap').innerText=d.rest?.recap||'-'; document.getElementById('detail-gratitude').innerText=d.rest?.gratitude||'-';
             }
         },
-        settings: { saveSpotify() { const b=SpotifyHelper.convertToEmbed(document.getElementById('setting-spotify-bloom').value); const r=SpotifyHelper.convertToEmbed(document.getElementById('setting-spotify-rest').value); Storage.saveSettings({ spotify_bloom: b||document.getElementById('setting-spotify-bloom').value, spotify_rest: r||document.getElementById('setting-spotify-rest').value }); app.loadSpotify(); alert("Disimpan!"); } },
+        settings: { saveSpotify() { const b=SpotifyHelper.convertToEmbed(document.getElementById('setting-spotify-bloom').value); const r=SpotifyHelper.convertToEmbed(document.getElementById('setting-spotify-rest').value); Storage.saveSettings({ spotify_bloom: b||document.getElementById('setting-spotify-bloom').value, spotify_rest: r||document.getElementById('setting-spotify-rest').value }); BloomApp.loadSpotify(); alert("Disimpan!"); } },
         router: {
             go(id) {
                 document.querySelectorAll('.view').forEach(e=>e.classList.remove('active')); document.getElementById(`view-${id}`).classList.add('active');
@@ -654,31 +724,37 @@
                 const bg = document.getElementById('global-bg'); document.querySelectorAll('.decoration-layer').forEach(d=>d.classList.remove('active'));
                 bg.className = ''; 
                 
-                // Group Home, Planner, Settings to use Home Background
                 if(['home', 'planner', 'settings'].includes(id)) {
                     bg.classList.add('bg-home');
                     document.getElementById('deco-home').classList.add('active');
                     document.body.classList.remove('dark-theme');
-                    if(id === 'home') app.renderHomeMorningSummary();
+                    if(id === 'home') BloomApp.renderHomeMorningSummary();
                 }
                 else if(id==='bloom') { bg.classList.add('bg-bloom'); document.getElementById('deco-bloom').classList.add('active'); document.body.classList.remove('dark-theme'); }
                 else if(id==='rest') { 
                     bg.classList.add('bg-rest'); document.getElementById('deco-rest').classList.add('active'); document.body.classList.add('dark-theme'); 
-                    // Populate Review Section if Bloom data exists
                     const todayData = Storage.getJournal()[Storage.getTodayKey()];
                     const reviewSec = document.getElementById('night-review-section');
-                    if(todayData && todayData.bloom && todayData.bloom.intention) {
+                    const todoContainer = document.getElementById('night-review-todos');
+                    if(todayData && todayData.bloom) {
                         reviewSec.style.display = 'block';
-                        document.getElementById('review-intention-text').innerText = `"${todayData.bloom.intention}"`;
+                        if(todayData.bloom.intention) {
+                             document.getElementById('review-intention-text').innerText = `"${todayData.bloom.intention}"`;
+                             document.getElementById('review-intention-wrapper').style.display = 'block';
+                        } else { document.getElementById('review-intention-wrapper').style.display = 'none'; }
+                        if(todayData.bloom.todos && todayData.bloom.todos.length > 0) {
+                            let todoHtml = '<p class="text-xs" style="text-align:center; margin-top:10px;">Ceklis yang terlaksana ya:</p>';
+                            todayData.bloom.todos.forEach((t, i) => { todoHtml += `<div class="task-item" style="background:white; cursor:pointer;" onclick="this.querySelector('.task-check').classList.toggle('checked')"><div class="task-check" id="night-check-${i}"></div><span class="task-text">${t}</span></div>`; });
+                            todoContainer.innerHTML = todoHtml; todoContainer.style.display = 'block';
+                        } else { todoContainer.style.display = 'none'; }
                     } else { reviewSec.style.display = 'none'; }
                 }
-                else if(id==='calendar') { bg.classList.add('bg-journal'); document.body.classList.remove('dark-theme'); app.calendar.render(); }
-                
-                if(id==='planner') app.planner.render(); window.scrollTo(0,0);
+                else if(id==='calendar') { bg.classList.add('bg-journal'); document.body.classList.remove('dark-theme'); BloomApp.calendar.render(); }
+                if(id==='planner') BloomApp.planner.render(); window.scrollTo(0,0);
             }
         }
     };
-    document.addEventListener('DOMContentLoaded', ()=>app.init());
+    document.addEventListener('DOMContentLoaded', ()=>BloomApp.init());
 </script>
 </body>
 </html>
